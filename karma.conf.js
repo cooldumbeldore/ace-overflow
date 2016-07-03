@@ -16,20 +16,15 @@ module.exports = function(config) {
       'client/app/app.js',
       'client/{app,components}/**/*.module.js',
       'client/{app,components}/**/*.js',
-      'client/{app,components}/**/*.{jade,html}'
+      'client/{app,components}/**/*.html'
     ],
 
     preprocessors: {
       '**/*.html': 'ng-html2js',
-      '**/*.jade': 'ng-jade2js',
       'client/{app,components}/**/*.js': 'babel'
     },
 
     ngHtml2JsPreprocessor: {
-      stripPrefix: 'client/'
-    },
-
-    ngJade2JsPreprocessor: {
       stripPrefix: 'client/'
     },
 

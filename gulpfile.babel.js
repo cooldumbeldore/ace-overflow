@@ -32,7 +32,7 @@ const paths = {
         ],
         styles: [`${clientPath}/{app,components}/**/*.css`],
         mainStyle: `${clientPath}/app/app.css`,
-        views: `${clientPath}/{app,components}/**/*.jade`,
+        views: `${clientPath}/{app,components}/**/*.html`,
         mainView: `${clientPath}/index.html`,
         test: [`${clientPath}/{app,components}/**/*.{spec,mock}.js`],
         e2e: ['e2e/**/*.spec.js'],
@@ -328,8 +328,6 @@ gulp.task('watch', () => {
     });
 
     plugins.watch(paths.client.views)
-        .pipe(plugins.jade())
-        .pipe(gulp.dest('.tmp'))
         .pipe(plugins.plumber())
         .pipe(plugins.livereload());
 
@@ -349,7 +347,7 @@ gulp.task('watch', () => {
 
 gulp.task('serve', cb => {
     runSequence(['clean:tmp', 'constant', 'env:all'],
-        ['lint:scripts', 'inject', 'jade'],
+        ['lint:scripts', 'inject'],
         ['wiredep:client'],
         ['transpile:client', 'styles'],
         ['start:server', 'start:client'],
@@ -368,7 +366,7 @@ gulp.task('serve:dist', cb => {
 
 gulp.task('serve:debug', cb => {
     runSequence(['clean:tmp', 'constant'],
-        ['lint:scripts', 'inject', 'jade'],
+        ['lint:scripts', 'inject'],
         ['wiredep:client'],
         ['transpile:client', 'styles'],
         'start:inspector',
@@ -446,7 +444,6 @@ gulp.task('build', cb => {
             'clean:dist',
             'clean:tmp'
         ],
-        'jade',
         'inject',
         'wiredep:client',
         [
@@ -497,16 +494,11 @@ gulp.task('build:client', ['styles', 'html', 'constant', 'build:images'], () => 
 });
 
 gulp.task('html', function() {
-    return gulp.src(`.tmp/{app,components}/**/*.html`)
+    return gulp.src(`${clientPath}/{app,components}/**/*.html`)
         .pipe(plugins.angularTemplatecache({
             module: 'aceOverflowApp'
         }))
         .pipe(gulp.dest('.tmp'));
-});
-gulp.task('jade', function() {
-  gulp.src(paths.client.views)
-    .pipe(plugins.jade())
-    .pipe(gulp.dest('.tmp'));
 });
 
 gulp.task('constant', function() {
