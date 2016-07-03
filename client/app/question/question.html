@@ -1,13 +1,19 @@
 <div class="container" style="text-align:center;">
-  <h1 class="page-header">Top Questions</h1>
+  <h1 class="page-header">{{$ctrl.title}}</h1>
+  <div>
+    <p>{{$ctrl.text}}</p>
+    <br>
+    <p>{{$ctrl.code}}</p>
+  </div>
 </div>
 
 
 <div class="container" style="text-align:center;">
   <div class="row">
+    <h1 class="page-header">Answers:</h1>
     <div class="col-lg-12" style="text-align:center;">
       <ul class="nav nav-tabs nav-stacked" style="text-align:center;">
-        <li ng-repeat="question in $ctrl.questions"><a href={{question.path}} >{{question.title}}</a></li>
+        <li ng-repeat="answer in $ctrl.answers">{{answer.text}}</li>
       </ul>
     </div>
   </div>

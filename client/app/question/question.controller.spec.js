@@ -1,13 +1,13 @@
 'use strict';
 
-describe('Component: questionsComponent', function() {
+describe('Component: questionComponent', function() {
 
   // load the controller's module
   beforeEach(module('aceOverflowApp'));
   beforeEach(module('stateMock'));
 
   var scope;
-  var questionsComponent;
+  var questionComponent;
   var state;
   var $httpBackend;
 
@@ -19,16 +19,16 @@ describe('Component: questionsComponent', function() {
 
     scope = $rootScope.$new();
     state = $state;
-    questionsComponent = $componentController('questions', {
+    questionComponent = $componentController('question', {
       $http: $http,
       $scope: scope
     });
   }));
 
   it('should attach a list of things to the controller', function() {
-    questionsComponent.$onInit();
+    questionComponent.$onInit();
     $httpBackend.flush();
-    expect(questionsComponent.awesomeThings.length)
+    expect(questionComponent.awesomeThings.length)
       .toBe(4);
   });
 });

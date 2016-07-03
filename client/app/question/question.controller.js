@@ -2,7 +2,7 @@
 
 (function () {
 
-  class QuestionsController {
+  class QuestionController {
 
     constructor($http) {
       this.$http = $http;
@@ -15,12 +15,15 @@
           this.awesomeThings = response.data;
         });
 
+      this.title = "asdf";
+      this.text = "my text";
+      this.code = "var a = 5";
 
-      this.questions = [
-        {title:"asdf", id:0, path:"#/question/0"},
-        {title:"q1", id:1, path:"#/question/1"},
-        {title:"q2", id:2, path:"#/question/2"},
-        {title:"q3", id:3, path:"#/question/"}
+      this.answers = [
+        {text: "answer 1"},
+        {text: "answer 2"},
+        {text: "answer 3"}
+
       ]
 
     }
@@ -40,8 +43,8 @@
   }
 
   angular.module('aceOverflowApp')
-    .component('questions', {
-      templateUrl: 'app/questions/questions.html',
-      controller: QuestionsController
+    .component('question', {
+      templateUrl: 'app/question/question.html',
+      controller: QuestionController
     });
 })();
