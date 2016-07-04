@@ -2,9 +2,9 @@
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/questions              ->  index
  * POST    /api/questions              ->  create
- * GET     /api/questions/:id          ->  show
- * PUT     /api/questions/:id          ->  update
- * DELETE  /api/questions/:id          ->  destroy
+ * GET     /api/questions/:questionId          ->  show
+ * PUT     /api/questions/:questionId          ->  update
+ * DELETE  /api/questions/:questionId          ->  destroy
  */
 
 'use strict';
@@ -17,6 +17,15 @@ function respondWithResult(res, statusCode) {
   return function(entity) {
     if (entity) {
       res.status(statusCode).json(entity);
+    }
+  };
+}
+
+function respondWithResultAnswer(res,answerId, statusCode) {
+  statusCode = statusCode || 200;
+  return function(entity) {
+    if (entity) {
+      res.status(statusCode).json(entity.answers.id(answerId));
     }
   };
 }
@@ -68,9 +77,17 @@ export function index(req, res) {
 
 // Gets a single Question from the DB
 export function show(req, res) {
-  return Question.findById(req.params.id).exec()
+  return Question.findById(req.params.questionId).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a single Answer from the DB
+export function showAnswer(req, res) {
+  return Question.findById(req.params.questionId).exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResultAnswer(res, req.params.answerId))//TODO: better?
     .catch(handleError(res));
 }
 
@@ -81,12 +98,28 @@ export function create(req, res) {
     .catch(handleError(res));
 }
 
+// Creates a new Question in the DB
+export function createAnswer(req, res) {
+  return Question.findById(req.params.questionId)
+    .then(function(err, question){
+      if(err) throw err;
+      //req.body.postedBy = 1;
+      question.answers.push(req.body);
+      question.save(function(err, question){
+        if(err) throw err;
+        res.json(question);
+      })
+    })
+    .then(respondWithResult(res, 201))
+    .catch(handleError(res));
+}
+
 // Updates an existing Question in the DB
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return Question.findById(req.params.id).exec()
+  return Question.findById(req.params.questionId).exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
@@ -95,7 +128,7 @@ export function update(req, res) {
 
 // Deletes a Question from the DB
 export function destroy(req, res) {
-  return Question.findById(req.params.id).exec()
+  return Question.findById(req.params.questionId).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
