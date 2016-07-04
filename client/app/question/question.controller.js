@@ -15,34 +15,9 @@
       this.$http.get('/api/questions/' + this.$stateParams.id)
         .then(response => {
           this.question = response.data;
-          console.log(this.question);
+          this.prismLang = "language-" + this.question.prog_lang;
         });
 
-    }
-
-    addQuestion() {
-      if (this.newQuestion) {
-        this.$http.post('/api/questions', {
-          name: this.newQuestion
-        });
-        this.newQuestion = '';
-      }
-    }
-
-    deleteQuestion(question) {
-      this.$http.delete('/api/questions/' + question._id);
-    }
-  }
-
-  class AnswerController {
-    constructor($http, $scope, $stateParams, $route) {
-      this.$http = $http;
-      this.$scope = $scope;
-      this.$stateParams = $stateParams;
-      this.$route = $route;
-    }
-
-    $onInit() {
     }
 
     sendAnswer() {
@@ -51,15 +26,14 @@
         //add posted by
       };
       this.addAnswer(answerObj);
+      setTimeout(this.$onInit, 150);
+
+
     }
 
     addAnswer(answerObj) {
       if (answerObj) {
-        this.$http.post('/api/questions/' + this.$stateParams.id + '/answers', answerObj)
-          .then(function(){
-            console.log("yay");
-            this.$route.reload();
-          });
+        this.$http.post('/api/questions/' + this.$stateParams.id + '/answers', answerObj);
       }
     }
 
@@ -72,10 +46,6 @@
     .component('question', {
       templateUrl: 'app/question/question.html',
       controller: QuestionController
-    })
-    .component('answercomp', {
-      templateUrl: 'app/question/answerForm.html',
-      controller: AnswerController
     });
 
 

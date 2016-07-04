@@ -29,6 +29,10 @@ var QuestionSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  prog_lang:{
+    type: String,
+    required: false
+  },
   answers : [answerSchema]
 },
 {

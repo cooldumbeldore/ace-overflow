@@ -1,9 +1,14 @@
-<div class="container" style="text-align:center;">
-  <h1 class="page-header">{{$ctrl.question.title}}</h1>
+<link href="prism.css" rel="stylesheet"/>
+<script src="prism.js"></script>
+
+<div class="container">
+  <div style="text-align:center;">
+    <h1 class="page-header">{{$ctrl.question.title}}</h1>
+  </div>
   <div>
-    <p>{{$ctrl.question.text}}</p>
+    <div>{{$ctrl.question.text}}</div>
     <br>
-    <p>{{$ctrl.question.code}}</p>
+    <pre data-src="prism.js"><code class=$ctrl.prismLang>{{$ctrl.question.code}}</code></pre>
   </div>
 </div>
 
@@ -13,8 +18,37 @@
     <h1 class="page-header">Answers:</h1>
     <div class="col-lg-12" style="text-align:center;">
       <ul class="nav nav-tabs nav-stacked" style="text-align:center;">
-        <li ng-repeat="answer in $ctrl.question.answers">{{answer.text}}</li>
+        <div ng-repeat="answer in $ctrl.question.answers">
+          <li style="font-size:20px; font-family: arial;">{{answer.text}}</li>
+          <br>
+        </div>
       </ul>
     </div>
   </div>
 </div>
+
+
+<div class="row row-content" style="text-align:center;">
+  <div class="">
+    <h3>Enter an Answer:</h3>
+  </div>
+  <div class="" style="text-align:center;">
+    <form class="form-horizontal" name="answerForm" ng-submit="$ctrl.sendAnswer()" novalidate>
+      <div class="form-group">
+        <div>
+                            <textarea class="form-control" rows="10"
+                                      ng-model="answer.text" style="margin-left: 25%; width:50%;" placeholder="text...">
+                            </textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div>
+          <button type="submit" class="btn btn-primary" ng-disabled="answerForm.$invalid">Submit
+            Answer
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
