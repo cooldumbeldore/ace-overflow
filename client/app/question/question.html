@@ -1,9 +1,9 @@
 <div class="container" style="text-align:center;">
-  <h1 class="page-header">{{$ctrl.title}}</h1>
+  <h1 class="page-header">{{$ctrl.question.title}}</h1>
   <div>
-    <p>{{$ctrl.text}}</p>
+    <p>{{$ctrl.question.text}}</p>
     <br>
-    <p>{{$ctrl.code}}</p>
+    <p>{{$ctrl.question.code}}</p>
   </div>
 </div>
 
@@ -13,7 +13,7 @@
     <h1 class="page-header">Answers:</h1>
     <div class="col-lg-12" style="text-align:center;">
       <ul class="nav nav-tabs nav-stacked" style="text-align:center;">
-        <li ng-repeat="answer in $ctrl.answers">{{answer.text}}</li>
+        <li ng-repeat="answer in $ctrl.question.answers">{{answer.text}}</li>
       </ul>
     </div>
   </div>

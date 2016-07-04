@@ -6,36 +6,31 @@
 
     constructor($http) {
       this.$http = $http;
-      this.awesomeThings = [];
+      this.questions = [];
     }
 
     $onInit() {
-      this.$http.get('/api/things')
+      this.$http.get('/api/questions')
         .then(response => {
-          this.awesomeThings = response.data;
+          this.questions = response.data;
+          for(var i = 0; i< this.questions.length; i++){
+            this.questions[i].path="/question/" + this.questions[i]._id;
+          }
         });
-
-
-      this.questions = [
-        {title:"asdf", id:0, path:"#/question/0"},
-        {title:"q1", id:1, path:"#/question/1"},
-        {title:"q2", id:2, path:"#/question/2"},
-        {title:"q3", id:3, path:"#/question/"}
-      ]
 
     }
 
-    addThing() {
-      if (this.newThing) {
-        this.$http.post('/api/things', {
-          name: this.newThing
+    addQuestion() {
+      if (this.newQuestion) {
+        this.$http.post('/api/questions', {
+          name: this.newQuestion
         });
-        this.newThing = '';
+        this.newQuestion = '';
       }
     }
 
-    deleteThing(thing) {
-      this.$http.delete('/api/things/' + thing._id);
+    deleteQuestion(question) {
+      this.$http.delete('/api/questions/' + question._id);
     }
   }
 

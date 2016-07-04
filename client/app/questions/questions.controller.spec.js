@@ -14,7 +14,7 @@ describe('Component: questionsComponent', function() {
   // Initialize the controller and a mock scope
   beforeEach(inject(function(_$httpBackend_, $http, $componentController, $rootScope, $state) {
     $httpBackend = _$httpBackend_;
-    $httpBackend.expectGET('/api/things')
+    $httpBackend.expectGET('/api/questions')
       .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
 
     scope = $rootScope.$new();
@@ -25,10 +25,10 @@ describe('Component: questionsComponent', function() {
     });
   }));
 
-  it('should attach a list of things to the controller', function() {
+  it('should attach a list of questions to the controller', function() {
     questionsComponent.$onInit();
     $httpBackend.flush();
-    expect(questionsComponent.awesomeThings.length)
+    expect(questionsComponent.questions.length)
       .toBe(4);
   });
 });

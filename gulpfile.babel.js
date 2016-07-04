@@ -322,17 +322,18 @@ gulp.task('start:server', () => {
    }));
   */
 
-  /*
+
    nodemon(`-w ${serverPath} ${serverPath}`)
    .on('log', onServerLog);
-*/
 
+
+  /*
    gulp_nodemon({
    script: `${serverPath}`
    , ext: 'js html'
    , env: { 'NODE_ENV': process.env.NODE_ENV }
-   })
-
+   });
+*/
   /*
    connect.server();
    */

@@ -4,41 +4,38 @@
 
   class QuestionController {
 
-    constructor($http) {
+    constructor($http, $scope, $stateParams) {
       this.$http = $http;
-      this.awesomeThings = [];
+      this.question = null;
+      this.$scope = $scope;
+      this.$stateParams = $stateParams;
     }
 
     $onInit() {
-      this.$http.get('/api/things')
+      this.$http.get('/api/questions/' + this.$stateParams.id)
         .then(response => {
-          this.awesomeThings = response.data;
+          this.question = response.data;
+          this.question.answers = [
+            {text: "answer 1"},
+            {text: "answer 2"},
+            {text: "answer 3"}
+
+          ]
         });
-
-      this.title = "asdf";
-      this.text = "my text";
-      this.code = "var a = 5";
-
-      this.answers = [
-        {text: "answer 1"},
-        {text: "answer 2"},
-        {text: "answer 3"}
-
-      ]
 
     }
 
-    addThing() {
-      if (this.newThing) {
-        this.$http.post('/api/things', {
-          name: this.newThing
+    addQuestion() {
+      if (this.newQuestion) {
+        this.$http.post('/api/questions', {
+          name: this.newQuestion
         });
-        this.newThing = '';
+        this.newQuestion = '';
       }
     }
 
-    deleteThing(thing) {
-      this.$http.delete('/api/things/' + thing._id);
+    deleteQuestion(question) {
+      this.$http.delete('/api/questions/' + question._id);
     }
   }
 

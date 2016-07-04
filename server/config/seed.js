@@ -4,38 +4,35 @@
  */
 
 'use strict';
-import Thing from '../api/thing/thing.model';
+import Question from '../api/question/question.model';
 import User from '../api/user/user.model';
 
-Thing.find({}).remove()
+Question.find({}).remove()
   .then(() => {
-    Thing.create({
-      name: 'Development Tools',
-      info: 'Integration with popular tools such as Bower, Grunt, Babel, Karma, ' +
-             'Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, ' +
-             'Stylus, Sass, and Less.'
+    Question.create({
+      title: 'Question0',
+      text: 'my text0',
+      code: 'var id = 0'
     }, {
-      name: 'Server and Client integration',
-      info: 'Built with a powerful and fun stack: MongoDB, Express, ' +
-             'AngularJS, and Node.'
+      title: 'Question1',
+      text: 'my text1',
+      code: 'var id = 1'
     }, {
-      name: 'Smart Build System',
-      info: 'Build system ignores `spec` files, allowing you to keep ' +
-             'tests alongside code. Automatic injection of scripts and ' +
-             'styles into your index.html'
+      title: 'Question2',
+      text: 'my text2',
+      code: 'var id = 2'
     }, {
-      name: 'Modular Structure',
-      info: 'Best practice client and server structures allow for more ' +
-             'code reusability and maximum scalability'
+      title: 'Question3',
+      text: 'my text3',
+      code: 'var id = 3'
     }, {
-      name: 'Optimized Build',
-      info: 'Build process packs up your templates as a single JavaScript ' +
-             'payload, minifies your scripts/css/images, and rewrites asset ' +
-             'names for caching.'
+      title: 'Question4',
+      text: 'my text4',
+      code: 'var id = 4'
     }, {
-      name: 'Deployment Ready',
-      info: 'Easily deploy your app to Heroku or Openshift with the heroku ' +
-             'and openshift subgenerators'
+      title: 'Question5',
+      text: 'my text5',
+      code: 'var id = 5'
     });
   });
 
