@@ -35,38 +35,36 @@
   }
 
   class AnswerController {
-    constructor($http, $scope, $stateParams) {
+    constructor($http, $scope, $stateParams, $route) {
       this.$http = $http;
       this.$scope = $scope;
       this.$stateParams = $stateParams;
-      this.test = "asdf";
+      this.$route = $route;
     }
 
     $onInit() {
-      this.test = "asdf";
-      console.log("init was called");
     }
 
     sendAnswer() {
-      console.log("yay");
-      console.log($scope.answer);
-
-      $scope.answer = {text: ""};
-      $scope.answer.$setPristine();
-      console.log($scope.answer);
+      var answerObj = {
+        text: this.$scope.answer.text
+        //add posted by
+      };
+      this.addAnswer(answerObj);
     }
 
-    addAnswer() {
-      if (this.newQuestion) {
-        this.$http.post('/api/questions/' + this.$stateParams.id +"/" , {
-          name: this.newQuestion
-        });
-        this.newQuestion = '';
+    addAnswer(answerObj) {
+      if (answerObj) {
+        this.$http.post('/api/questions/' + this.$stateParams.id + '/answers', answerObj)
+          .then(function(){
+            console.log("yay");
+            this.$route.reload();
+          });
       }
     }
 
-    deleteAnswer(question) {
-      this.$http.delete('/api/questions/' + question._id);
+    deleteAnswer(answerObj) {
+      this.$http.delete('/api/questions/' + this.$stateParams.id + '/answers/' + answerObj.id);
     }
   }
 

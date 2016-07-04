@@ -14,7 +14,7 @@ router.delete('/:questionId', controller.destroy);
 
 
 router.get('/:questionId/answers/:answerId', controller.showAnswer);
-router.post('/:questionId/', controller.createAnswer);
+router.post('/:questionId/answers', controller.createAnswer);
 /*
 router.put('/:questionId/answers/:answerId', controller.updateAnswer);
 //router.patch('/:question_id/:answer_id', controller.update);

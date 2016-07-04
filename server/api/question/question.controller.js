@@ -101,8 +101,7 @@ export function create(req, res) {
 // Creates a new Question in the DB
 export function createAnswer(req, res) {
   return Question.findById(req.params.questionId)
-    .then(function(err, question){
-      if(err) throw err;
+    .then(function(question){
       //req.body.postedBy = 1;
       question.answers.push(req.body);
       question.save(function(err, question){
