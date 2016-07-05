@@ -6,6 +6,8 @@
 'use strict';
 import Question from '../api/question/question.model';
 import User from '../api/user/user.model';
+import Tag from '../api/tag/tag.model';
+
 
 Question.find({}).remove()
   .then(() => {
@@ -69,6 +71,9 @@ Question.find({}).remove()
         {text:'answer2 to question5'},
         {text:'answer3 to question5'}
       ]
+    })
+    .then(() => {
+      console.log('finished populating questions');
     });
   });
 
@@ -90,3 +95,19 @@ User.find({}).remove()
       console.log('finished populating users');
     });
   });
+
+Tag.find({}).remove()
+  .then(() => {
+    Tag.create({
+      text: 'funny'
+    }, {
+      text: 'cool'
+    },{
+      text: 'cyber'
+    })
+    .then(() => {
+      console.log('finished populating tags');
+    });
+  });
+
+

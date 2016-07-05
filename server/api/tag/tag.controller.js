@@ -10,9 +10,7 @@
 'use strict';
 
 import _ from 'lodash';
-import Question from './question.model';
-import User from '../user/user.model';
-import Tag from '../tag/tag.model';
+import Tag from './tag.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -23,19 +21,9 @@ function respondWithResult(res, statusCode) {
   };
 }
 
-function respondWithResultAnswer(res,answerId, statusCode) {
-  statusCode = statusCode || 200;
-  return function(entity) {
-    if (entity) {
-      res.status(statusCode).json(entity.answers.id(answerId));
-    }
-  };
-}
-
 function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
-    console.log(updated);
     return updated.save()
       .then(updated => {
         return updated;
@@ -73,61 +61,36 @@ function handleError(res, statusCode) {
 
 // Gets a list of Questions
 export function index(req, res) {
-  return Question.find().exec()
+  return Tag.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Gets a single Question from the DB
 export function show(req, res) {
-  return Question.findById(req.params.questionId)
+  return Tag.findById(req.params.questionId)
     .populate('answers.postedBy')
     .populate('postedBy')
-    .populate('tags')
     .exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single Answer from the DB
-export function showAnswer(req, res) {
-  return Question.findById(req.params.questionId)
-    .populate('postedBy')
-    .exec()
-    .then(handleEntityNotFound(res))
-    .then(respondWithResultAnswer(res, req.params.answerId))//TODO: better?
-    .catch(handleError(res));
-}
-
 // Creates a new Question in the DB
 export function create(req, res) {
-  return Question.create(req.body)
+  return Tag.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Creates a new Question in the DB
-export function createAnswer(req, res) {
-  return Question.findById(req.params.questionId)
-    .then(function(question){
-      question.answers.push(req.body);
-      question.save(function(err, question){
-        if(err) throw err;
-        res.json(question);
-      })
-    })
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
-}
 
 // Updates an existing Question in the DB
 export function update(req, res) {
-  console.log(req.body);
   if (req.body._id) {
     delete req.body._id;
   }
-  return Question.findById(req.params.questionId).exec()
+  return Tag.findById(req.params.questionId).exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
@@ -136,7 +99,7 @@ export function update(req, res) {
 
 // Deletes a Question from the DB
 export function destroy(req, res) {
-  return Question.findById(req.params.questionId).exec()
+  return Tag.findById(req.params.questionId).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

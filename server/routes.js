@@ -11,6 +11,7 @@ export default function(app) {
   // Insert routes below
   app.use('/api/users', require('./api/user'));
   app.use('/api/questions', require('./api/question'));
+  app.use('/api/tags', require('./api/tag'));
 
   app.use('/auth', require('./auth').default);
 

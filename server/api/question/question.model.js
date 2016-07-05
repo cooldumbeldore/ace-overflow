@@ -1,20 +1,7 @@
 'use strict';
 
 import mongoose from 'mongoose';
-
-var answerSchema = new mongoose.Schema({
-    text: {
-      type: String,
-      required: true
-    },
-    postedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'UserSchema'
-    }
-  },
-  {
-    timestamps: true
-  });
+import answerSchema from '../answer/answer.model'
 
 var QuestionSchema = new mongoose.Schema({
   title: {
@@ -35,9 +22,10 @@ var QuestionSchema = new mongoose.Schema({
   },
   postedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'UserSchema'
+      ref: 'User'
   },
-  answers : [answerSchema]
+  answers : [answerSchema],
+  tags: [{type:mongoose.Schema.Types.ObjectId, ref:'Tag'}]
 },
 {
   timestamps: true
