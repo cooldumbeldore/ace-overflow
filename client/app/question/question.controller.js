@@ -48,9 +48,10 @@
     }
 
     updateQuestion(){
-      console.log(this.question.postedBy);
-      console.log(this.Auth.getCurrentUser());
-
+      if(!tagText){
+        alert('Must Enter tags');
+        return;
+      }
       var tagText = this.form.tags;
       var tags = tagText.split(' ');
       var uniqueTags = tags.filter(function(item, pos) {
@@ -70,7 +71,6 @@
         return matched.indexOf(item) == -1;
       });
 
-      console.log(missingTags.length);
       if(missingTags.length != 0 ){
         alert('Invalid tags: ' + missingTags);
         return;
@@ -97,9 +97,8 @@
       postedBy: this.question.postedBy._id,
       tags: tagIds
       };
-      this.$http.delete('/api/questions/'+this.question._id);
-      this.$http.post('/api/questions/', updatedQuestion);
-      //change to put
+      this.$http.put('/api/questions/' + this.question._id, updatedQuestion);
+      setTimeout(this.reload(),100);
     }
 
     sendAnswer() {

@@ -8,6 +8,7 @@
       this.$http = $http;
       this.$scope = $scope;
       this.questions = [];
+      this.found_questions = [];
       this.Auth = Auth;
     }
 
@@ -32,34 +33,94 @@
       $("textarea").val('');
     }
 
+    searchQuestions(){
+      this.found_questions = [];
+      
+      var tagText = this.search.tags;
+      var tags = tagText.split(' ');
+      var uniqueTags = tags.filter(function(item, pos) {
+          return tags.indexOf(item) == pos;
+      })
+      var tagIds = [];
+      var matched = [];
+      for(var i = 0; i < this.avialableTags.length; i++){
+        for(var j = 0; j < uniqueTags.length; j++){
+          if(this.avialableTags[i].text == uniqueTags[j]){
+            tagIds.push(this.avialableTags[i]._id);
+            matched.push(uniqueTags[j]);
+          }
+        }
+      }
+      var missingTags = uniqueTags.filter(function(item){
+        return matched.indexOf(item) == -1;
+      });
+
+      console.log(missingTags.length);
+      if(missingTags.length != 0 ){
+        alert('Invalid tags: ' + missingTags);
+        return;
+      }
+
+        this.$http.get('/api/questions')
+        .then(response => {
+
+          var questions = response.data;
+          for(var i = 0; i< questions.length; i++){
+            var currQuestion = questions[i];
+            currQuestion.path="/question/" + this.questions[i]._id;
+            console.log(currQuestion);
+            var flag = false;
+            for(var j = 0; j < currQuestion.tags.length; j++){
+              if(flag){
+                break;;
+              }
+              for(var k = 0; k < tagIds.length; k++){
+                if(tagIds[k] == currQuestion.tags[j]){
+                  this.found_questions.push(currQuestion);
+                  flag = true;
+                  break;
+                }
+              }
+            }
+          }
+        });
+        //handle date
+      console.log(this.search.creationDate);
+    }
+
     sendQuestion() {
       if(!this.$scope.question.text || !this.$scope.question.title){
         alert("Must enter question title and question text!");
       }else if(this.Auth.isLoggedIn()){
         var tagText = this.$scope.question.tags;
-        var tags = tagText.split(' ');
-        var uniqueTags = tags.filter(function(item, pos) {
-            return tags.indexOf(item) == pos;
-        })
-        var tagIds = [];
-        var matched = [];
-        for(var i = 0; i < this.avialableTags.length; i++){
-          for(var j = 0; j < uniqueTags.length; j++){
-            if(this.avialableTags[i].text == uniqueTags[j]){
-              tagIds.push(this.avialableTags[i]._id);
-              matched.push(uniqueTags[j]);
+        if(tagText){
+          var tags = tagText.split(' ');
+          var uniqueTags = tags.filter(function(item, pos) {
+              return tags.indexOf(item) == pos;
+          })
+          var tagIds = [];
+          var matched = [];
+          for(var i = 0; i < this.avialableTags.length; i++){
+            for(var j = 0; j < uniqueTags.length; j++){
+              if(this.avialableTags[i].text == uniqueTags[j]){
+                tagIds.push(this.avialableTags[i]._id);
+                matched.push(uniqueTags[j]);
+              }
             }
           }
-        }
-        var missingTags = uniqueTags.filter(function(item){
-          return matched.indexOf(item) == -1;
-        });
+          var missingTags = uniqueTags.filter(function(item){
+            return matched.indexOf(item) == -1;
+          });
 
-        console.log(missingTags.length);
-        if(missingTags.length != 0 ){
-          alert('Invalid tags: ' + missingTags);
-          return;
+          console.log(missingTags.length);
+          if(missingTags.length != 0 ){
+            alert('Invalid tags: ' + missingTags);
+            return;
+          }
+        }else{
+          var tagIds = [];
         }
+
 
         var user = this.Auth.getCurrentUser();
         var questionObj = {

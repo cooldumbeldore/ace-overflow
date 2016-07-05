@@ -32,17 +32,6 @@ function respondWithResultAnswer(res,answerId, statusCode) {
   };
 }
 
-function saveUpdates(updates) {
-  return function(entity) {
-    var updated = _.merge(entity, updates);
-    console.log(updated);
-    return updated.save()
-      .then(updated => {
-        return updated;
-      });
-  };
-}
-
 function removeEntity(res) {
   return function(entity) {
     if (entity) {
@@ -121,17 +110,79 @@ export function createAnswer(req, res) {
     .catch(handleError(res));
 }
 
+/*
+function saveUpdates(updates) {
+  return function(entity) {
+    console.log("inside saveUpdated func func");
+    var updated = _.merge(entity, updates);
+    return updated.save()
+      .then(updated => {
+         console.log(updated);
+        console.log("yay");
+        return updated;
+      });
+  };
+}
+
+function getMergedQuestion(updates) {
+  return function(entity) {
+    var updated = _.merge(entity, updates);
+    return updated;
+  };
+}
+
+function createQuestion(question1){
+  return function(question){
+    console.log("creating...");
+    console.log(question1);
+    console.log(question);
+    return Question.create(question);
+  }
+}
+
+function deleteQuestion(){
+  return function(entity){
+    console.log("deleting...");
+    console.log(entity);
+    console.log(entity.remove());
+    
+  }
+}
+
+  return Question.findById(req.params.questionId).exec()
+    .then(handleEntityNotFound(res))
+    .then(function(original){
+      globalOriginal = original;
+      return original;
+    })
+    .then(getMergedQuestion(req.body))
+    .then(function(merged){
+      console.log(merged);
+      globalMerged = merged;
+      return globalOriginal;
+    })
+    .then(deleteQuestion(globalOriginal))
+    .then(function(){
+      return globalMerged;
+    })
+    .then(createQuestion(globalMerged))
+
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+
+*/
 // Updates an existing Question in the DB
 export function update(req, res) {
-  console.log(req.body);
   if (req.body._id) {
     delete req.body._id;
   }
-  return Question.findById(req.params.questionId).exec()
-    .then(handleEntityNotFound(res))
-    .then(saveUpdates(req.body))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+
+  return Question.findOneAndUpdate({_id:req.params.questionId},
+    req.body)
+  .then(respondWithResult(res))
+  .catch(handleError(res));
+
+
 }
 
 // Deletes a Question from the DB

@@ -2,7 +2,6 @@
   <h1 class="page-header">Top Questions</h1>
 </div>
 
-
 <div class="container" style="text-align:center;">
   <div class="row">
     <div class="col-lg-12" style="text-align:center;">
@@ -13,6 +12,45 @@
   </div>
 </div>
 
+<div class="container" style="text-align:center;">
+  <h1 class="page-header">Search Questions</h1>
+</div>
+
+
+<div class="row row-content" style="text-align:center;">
+  <div class="" style="text-align:center;">
+    <form class="form-horizontal" name="searchForm" ng-submit="$ctrl.searchQuestions()" novalidate>
+      <div class="form-group">
+        <div>
+                            <textarea class="form-control" rows="3"
+                                      ng-model="$ctrl.search.tags" style="margin-left: 25%; width:50%;" placeholder="search tags...">
+                            </textarea>
+                            <input ng-model="$ctrl.search.creationDate" style="" type="date" name="bday">
+        </div>
+      </div>
+      <div class="form-group">
+        <div>
+          <button type="submit" class="btn btn-primary" ng-disabled="searchForm.$invalid">search
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container" style="text-align:center;">
+  <div class="row">
+    <div class="col-lg-12" style="text-align:center;">
+      <ul class="nav nav-tabs nav-stacked" style="text-align:center;">
+        <li ng-repeat="question in $ctrl.found_questions"><a href={{question.path}} >{{question.title}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="text-align:center;">
+  <h1 class="page-header">Add Questions</h1>
+</div>
 
 <div class="row row-content" style="text-align:center;" ng-show="$ctrl.Auth.isLoggedIn()">
   <div class="">
