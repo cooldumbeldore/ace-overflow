@@ -24,6 +24,7 @@
 
     reload(){
       this.$onInit();
+      $("textarea").val('');
     }
 
     sendQuestion() {
