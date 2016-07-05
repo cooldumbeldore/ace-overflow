@@ -4,12 +4,15 @@
 
   class MainController {
 
-    constructor($http) {
+    constructor($http, $scope, $state) {
       this.$http = $http;
       this.awesomeThings = [];
+      console.log($scope);
+      console.log($state);
     }
 
     $onInit() {
+      console.log(this.user);
     }
   }
 

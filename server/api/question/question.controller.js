@@ -77,7 +77,8 @@ export function index(req, res) {
 
 // Gets a single Question from the DB
 export function show(req, res) {
-  return Question.findById(req.params.questionId).exec()
+  return Question.findById(req.params.questionId)
+  /*.populate('answers.postedBy').populate('postedBy')*/.exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -102,7 +103,6 @@ export function create(req, res) {
 export function createAnswer(req, res) {
   return Question.findById(req.params.questionId)
     .then(function(question){
-      //req.body.postedBy = 1;
       question.answers.push(req.body);
       question.save(function(err, question){
         if(err) throw err;

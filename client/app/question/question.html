@@ -8,7 +8,7 @@
   <div>
     <div>{{$ctrl.question.text}}</div>
     <br>
-    <pre data-src="prism.js"><code class=$ctrl.prismLang>{{$ctrl.question.code}}</code></pre>
+    <pre class={{$ctrl.prismLang}}><code class={{$ctrl.prismLang}}>{{$ctrl.question.code}}</code></pre>
   </div>
 </div>
 
@@ -28,7 +28,7 @@
 </div>
 
 
-<div class="row row-content" style="text-align:center;">
+<div class="row row-content" style="text-align:center;" ng-show="$ctrl.Auth.isLoggedIn()">
   <div class="">
     <h3>Enter an Answer:</h3>
   </div>

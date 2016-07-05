@@ -4,10 +4,11 @@
 
   class QuestionsController {
 
-    constructor($http, $scope) {
+    constructor($http, $scope, Auth) {
       this.$http = $http;
       this.$scope = $scope;
       this.questions = [];
+      this.Auth = Auth;
     }
 
     $onInit() {
@@ -21,17 +22,27 @@
 
     }
 
+    reload(){
+      this.$onInit();
+    }
+
     sendQuestion() {
-      var questionObj = {
+      if(!this.$scope.question.text || !this.$scope.question.title){
+        alert("Must enter question title and question text!");
+      }else if(this.Auth.isLoggedIn()){
+        var user = this.Auth.getCurrentUser();
+        var questionObj = {
         text: this.$scope.question.text,
         title: this.$scope.question.title,
         code: this.$scope.question.code,
-        prog_lang: this.$scope.question.prog_lang
-        //add posted by
-      };
-      this.addQuestion(questionObj);
-      setTimeout(this.$onInit, 150);
-
+        prog_lang: this.$scope.question.prog_lang,
+        postedBy: user._id
+        };
+        this.addQuestion(questionObj);
+        setTimeout(this.reload(),100);
+      }else{
+        alert("Only logged in users can submit questions.");
+      }
     }
 
     addQuestion(questionObj) {
