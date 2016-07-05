@@ -35,8 +35,12 @@
 
     searchQuestions(){
       this.found_questions = [];
-      
+
       var tagText = this.search.tags;
+      if(!tagText){
+        alert("Must enter tags");
+        return;
+      }
       var tags = tagText.split(' ');
       var uniqueTags = tags.filter(function(item, pos) {
           return tags.indexOf(item) == pos;
@@ -55,7 +59,6 @@
         return matched.indexOf(item) == -1;
       });
 
-      console.log(missingTags.length);
       if(missingTags.length != 0 ){
         alert('Invalid tags: ' + missingTags);
         return;
@@ -68,11 +71,14 @@
           for(var i = 0; i< questions.length; i++){
             var currQuestion = questions[i];
             currQuestion.path="/question/" + this.questions[i]._id;
-            console.log(currQuestion);
             var flag = false;
+            if(this.search.beforeDate.getTime() >= new Date(currQuestion.createdAt).getTime() ||
+             new Date(currQuestion.createdAt).getTime() >= this.search.afterDate.getTime()){
+              continue;
+            }
             for(var j = 0; j < currQuestion.tags.length; j++){
               if(flag){
-                break;;
+                break;
               }
               for(var k = 0; k < tagIds.length; k++){
                 if(tagIds[k] == currQuestion.tags[j]){
@@ -85,6 +91,8 @@
           }
         });
         //handle date
+        //
+      console.log("asdf");
       console.log(this.search.creationDate);
     }
 

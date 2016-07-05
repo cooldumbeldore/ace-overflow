@@ -25,7 +25,7 @@ var QuestionSchema = new mongoose.Schema({
       ref: 'User'
   },
   answers : [answerSchema],
-  tags: [{type:mongoose.Schema.Types.ObjectId, ref:'Tag'}]
+  tags: [{type:mongoose.Schema.Types.ObjectId, ref:'Tag'}],
 },
 {
   timestamps: true
